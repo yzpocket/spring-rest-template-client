@@ -1,6 +1,7 @@
 package com.sparta.springresttemplateclient.service;
 
 import com.sparta.springresttemplateclient.dto.ItemDto;
+import com.sparta.springresttemplateclient.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,7 +25,7 @@ public class RestTemplateService {
         this.restTemplate = builder.build();
     }
 
-    //하나 가져오기
+    // [1]클라이언트 - 하나 가져오기 요청 쿼리스트링
     public ItemDto getCallObject(String query) {
         // 요청 URL 만들기
         URI uri = UriComponentsBuilder
@@ -43,7 +44,7 @@ public class RestTemplateService {
         return responseEntity.getBody(); // 그 중 바디를 반환
     }
 
-    //모두 가져오기
+    // [2]클라이언트 - 모두 가져오기 요청
     public List<ItemDto> getCallList() {
         // 요청 URL 만들기
         URI uri = UriComponentsBuilder
@@ -62,8 +63,25 @@ public class RestTemplateService {
         return fromJSONtoItems(responseEntity.getBody());
     }
 
+    // [3]클라이언트 - PathVariable
     public ItemDto postCall(String query) {
-        return null;
+        // 요청 URL 만들기 //PathVariable 방식
+        URI uri = UriComponentsBuilder
+                .fromUriString("http://localhost:7070")
+                .path("/api/server/post-call/{query}") //PathVariable 방식
+                .encode()
+                .build()
+                .expand(query)
+                .toUri();
+        log.info("uri = " + uri);
+
+        User user = new User("Robbie", "1234");
+
+        ResponseEntity<ItemDto> responseEntity = restTemplate.postForEntity(uri, user, ItemDto.class); // 1.uri, 2.body object, 3.response object
+
+        log.info("statusCode = " + responseEntity.getStatusCode());
+
+        return responseEntity.getBody();
     }
 
     public List<ItemDto> exchangeCall(String token) {
