@@ -4,6 +4,7 @@ import com.sparta.springresttemplateclient.naver.dto.ItemDto;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +19,12 @@ import java.util.List;
 @Slf4j(topic = "NAVER API")
 @Service
 public class NaverApiService {
-
     private final RestTemplate restTemplate;
-
-    public NaverApiService(RestTemplateBuilder builder) {
+    private final ApiKey apiKey;
+    @Autowired
+    public NaverApiService(RestTemplateBuilder builder, ApiKey apiKey) {
         this.restTemplate = builder.build();
+        this.apiKey = apiKey; // apiKey 필드를 생성자에서 초기화
     }
 
     public List<ItemDto> searchItems(String query) {
@@ -39,8 +41,8 @@ public class NaverApiService {
 
         RequestEntity<Void> requestEntity = RequestEntity
                 .get(uri)
-                .header("X-Naver-Client-Id", "_1BWrOb2T0s8N8K0RCum")
-                .header("X-Naver-Client-Secret", "X9xuz8mfFW")
+                .header("X-Naver-Client-Id", apiKey.getId())
+                .header("X-Naver-Client-Secret", apiKey.getSecret())
                 .build();
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
