@@ -1,27 +1,15 @@
 package com.sparta.springresttemplateclient.naver.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+@Setter
 @Getter
 @Configuration
 @ConfigurationProperties(prefix = "naver.client")
 public class ApiKey {
-    private String naver_client_id;
-    private String naver_client_secret;
-
-    // Getter 메서드
-    public String getId() {
-        return naver_client_id;
-    }
-
-    public String getSecret() {
-        return naver_client_secret;
-    }
-
-    @Override
-    public String toString() {
-        return "ApiKey [apiKey=" + naver_client_id + "]";
-    }
+    private String id;
+    private String secret;
 }
