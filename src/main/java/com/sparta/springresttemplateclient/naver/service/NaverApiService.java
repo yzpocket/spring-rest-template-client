@@ -1,5 +1,6 @@
 package com.sparta.springresttemplateclient.naver.service;
 
+import com.sparta.springresttemplateclient.naver.dto.ApiKey;
 import com.sparta.springresttemplateclient.naver.dto.ItemDto;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;

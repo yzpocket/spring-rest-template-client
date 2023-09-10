@@ -1,4 +1,4 @@
-package com.sparta.springresttemplateclient.naver.service;
+package com.sparta.springresttemplateclient.naver.dto;
 
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
